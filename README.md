@@ -1,8 +1,12 @@
 ### Hi there 👋 
 
+![](https://thiscatdoesnotexist.com/)
+
+<!--
 ![](http://www.nyan.cat/cats/dub.gif)
 ![](http://www.nyan.cat/cats/jazz.gif)
-
+-->
+ 
 <!--
 **elonzh/elonzh** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
 
