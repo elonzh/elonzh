@@ -2,6 +2,8 @@
 
 ![](https://thiscatdoesnotexist.com/)
 
+[![CNB 活跃日历贪吃蛇](https://cnb.cool/elonzh/cnb/snk/-/git/raw/main/assets/cnb-snake.gif)](https://cnb.cool/elonzh/cnb/snk)
+
 <!--
 ![](http://www.nyan.cat/cats/dub.gif)
 ![](http://www.nyan.cat/cats/jazz.gif)
