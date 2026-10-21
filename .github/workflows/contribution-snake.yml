@@ -1,0 +1,42 @@
+name: Update GitHub contribution snake
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/contribution-snake.yml
+      - scripts/publish-snake.sh
+  schedule:
+    # 05:17 Asia/Shanghai; GitHub schedules use UTC.
+    - cron: "17 21 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: github-contribution-snake
+  cancel-in-progress: false
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Check out source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Generate GitHub contribution GIF
+        uses: Platane/snk@d8f6715049803e982ee5ff501b6b9b7d5deeb09b # v3
+        with:
+          github_user_name: ${{ github.repository_owner }}
+          outputs: dist/github-snake.gif
+      - name: Publish GIF to output branch
+        env:
+          SNAKE_REPOSITORY_URL: https://github.com/${{ github.repository }}.git
+          SNAKE_TOKEN: ${{ github.token }}
+          SNAKE_TOKEN_USER: x-access-token
+          SNAKE_COMMITTER_NAME: github-actions[bot]
+          SNAKE_COMMITTER_EMAIL: 41898282+github-actions[bot]@users.noreply.github.com
+        run: bash scripts/publish-snake.sh dist/github-snake.gif

@@ -1,0 +1,29 @@
+.generate: &generate
+  name: update-cnb-contribution-snake
+  docker:
+    image: node:24
+  lock:
+    key: cnb-contribution-snake
+    wait: true
+  stages:
+    - name: generate-cnb-contribution-gif
+      image: docker.cnb.cool/elonzh/cnb/snk:latest
+      settings:
+        username: elonzh
+        outputs: dist/cnb-snake.gif
+    - name: publish-gif-to-output-branch
+      env:
+        SNAKE_REPOSITORY_URL: $CNB_WEB_ENDPOINT/$CNB_REPO_SLUG
+        SNAKE_TOKEN: $CNB_TOKEN
+        SNAKE_TOKEN_USER: $CNB_TOKEN_USER_NAME
+        SNAKE_COMMITTER_NAME: $CNB_COMMITTER
+        SNAKE_COMMITTER_EMAIL: $CNB_COMMITTER_EMAIL
+      script: bash scripts/publish-snake.sh dist/cnb-snake.gif
+
+cnb:
+  push:
+    - *generate
+  web_trigger:
+    - *generate
+  "crontab: 17 5 * * *":
+    - *generate
