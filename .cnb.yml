@@ -12,13 +12,14 @@
         username: elonzh
         outputs: dist/cnb-snake.gif
     - name: publish-gif-to-output-branch
-      env:
-        SNAKE_REPOSITORY_URL: $CNB_WEB_ENDPOINT/$CNB_REPO_SLUG
-        SNAKE_TOKEN: $CNB_TOKEN
-        SNAKE_TOKEN_USER: $CNB_TOKEN_USER_NAME
-        SNAKE_COMMITTER_NAME: $CNB_COMMITTER
-        SNAKE_COMMITTER_EMAIL: $CNB_COMMITTER_EMAIL
-      script: bash scripts/publish-snake.sh dist/cnb-snake.gif
+      # CNB_TOKEN is injected at runtime; map it in the shell, not YAML env.
+      script: |
+        SNAKE_REPOSITORY_URL="${CNB_WEB_ENDPOINT%/}/${CNB_REPO_SLUG}" \
+        SNAKE_TOKEN="$CNB_TOKEN" \
+        SNAKE_TOKEN_USER="$CNB_TOKEN_USER_NAME" \
+        SNAKE_COMMITTER_NAME="$CNB_COMMITTER" \
+        SNAKE_COMMITTER_EMAIL="$CNB_COMMITTER_EMAIL" \
+          bash scripts/publish-snake.sh dist/cnb-snake.gif
 
 cnb:
   push:
